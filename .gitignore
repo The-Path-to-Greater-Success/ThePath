@@ -1,7 +1,8 @@
-.idea/*
-*/.terraform/*
-*/terraform.tfstate
-*/terraform.tfstate.backup
+**/.idea/*
+**/.terraform/*
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/.vs/*
 
 # Windows thumbnail cache files
 Thumbs.db
