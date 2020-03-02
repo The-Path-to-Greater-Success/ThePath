@@ -19,9 +19,18 @@ data "aws_iam_policy_document" "create-user-lambda-policy" {
     ]
     resources = [var.dynamoDB-users-table-arn]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage"
+    ]
+    resources = [var.create-user-queue-arn]
+  }
 }
 
 resource "aws_iam_policy" "create-user-lambda-policy" {
+  name = format("create-user-lambda-%s", var.Environment)
   policy = data.aws_iam_policy_document.create-user-lambda-policy.json
 }
 

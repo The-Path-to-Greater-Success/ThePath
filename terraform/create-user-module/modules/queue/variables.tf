@@ -3,10 +3,7 @@ variable "Environment" {
   type = string
 }
 
-variable "dynamoDB-users-table-arn" {
-  type = string
-}
-
-variable "create-user-queue-arn" {
+variable "Region" {
+  description = "Region for the infrastructure. Example: eu-central-1"
   type = string
 }
