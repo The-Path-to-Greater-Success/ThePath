@@ -28,3 +28,10 @@ resource "aws_lambda_function" "create-user-lambda" {
     Environment = var.Environment
   }
 }
+
+resource "aws_lambda_event_source_mapping" "create-user-event-source-mapping" {
+  event_source_arn = module.create-user-queue.create-user-queue-arn
+  function_name = aws_lambda_function.create-user-lambda.function_name
+  enabled = true
+  batch_size = 10
+}

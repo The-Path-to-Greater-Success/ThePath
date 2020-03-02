@@ -23,7 +23,8 @@ data "aws_iam_policy_document" "create-user-lambda-policy" {
     effect = "Allow"
     actions = [
       "sqs:ReceiveMessage",
-      "sqs:DeleteMessage"
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes"
     ]
     resources = [var.create-user-queue-arn]
   }
