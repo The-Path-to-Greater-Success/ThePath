@@ -4,9 +4,17 @@ module "users-database-table" {
   Region = var.Region
 }
 
+module "create-user-queue" {
+  source = "./modules/queue"
+  Environment = var.Environment
+  Region = var.Region
+}
+
 module "create-user-lambda-role" {
   source = "./modules/iam-policies"
   dynamoDB-users-table-arn = module.users-database-table.dynamoDB-users-table-arn
+  create-user-queue-arn = module.create-user-queue.create-user-queue-arn
+  Environment = var.Environment
 }
 
 resource "aws_lambda_function" "create-user-lambda" {
@@ -19,4 +27,11 @@ resource "aws_lambda_function" "create-user-lambda" {
   tags = {
     Environment = var.Environment
   }
+}
+
+resource "aws_lambda_event_source_mapping" "create-user-event-source-mapping" {
+  event_source_arn = module.create-user-queue.create-user-queue-arn
+  function_name = aws_lambda_function.create-user-lambda.function_name
+  enabled = true
+  batch_size = 10
 }
